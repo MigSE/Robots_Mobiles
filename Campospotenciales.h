@@ -98,20 +98,25 @@ switch(direccionluz)
 	break;
 
 }
-giroA=-giroA*(3.141592654/4);//Establece un giro de atracción a la luz, en términos de 45°
+if(direccionobs>9)
+giroR=(20-direccionobs+1)*(-3.141592654/20);
+else
 giroR=(direccionobs+1)*(3.141592654/20);//Establece giro de repulsion a obstaculo en muiltiplos de 45°
+
+giroA=-giroA*(3.141592654/4);//Establece un giro de atracción a la luz, en términos de 45°
+
 printf("giroA %f, giroR %f\n",giroA,giroR);
 if(obs==0)//Si no hay obstaculo solo gira hacia la luz
   giro=giroA;
 else//Sino hace una ponderación
-  giro=((1/(intensity))*giroA)-giroR;
-
+  giro=(giroA)+giroR;
+printf("Giro= %f",giro);
+if(giro==0||giro==giroR/2)
+  giro=giroR;
 switch(*next_state){
 case 0:
-	//*movements=generate_output(RIGHT,Mag_Advance,max_twist*giroA);
 	movements->twist = giro;
  	movements->advance = 0.03;
-	//*next_state=1;
 break;
 
 case 1:
@@ -126,5 +131,3 @@ break;
 }
 return result;
 }
-
-                 
