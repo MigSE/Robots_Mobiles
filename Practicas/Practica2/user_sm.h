@@ -31,63 +31,39 @@ void user_sm(float intensity, float *light_values, float *observations, int size
  switch ( obs ) {
 
         case 0:{
-int flg_result = light_follower(intensity,light_values,movements,Mag_Advance/2,max_twist);
+
+
+
+int flg_result = light_follower(intensity,light_values,movements,Mag_Advance,max_twist);
                 if(flg_result == 1) stop();
-		
-		/*switch(obs){
-		case 0:{
-			int flg_result = light_follower(intensity,light_values,movements,Mag_Advance/4,max_twist);
-                if(flg_result == 1) stop();
-			*next_state=0;
-			break;}
-		case 1:
-			*next_state=1;
-			break;
-		case 2:
-			*next_state=1;
-			break;
-		case 3:
-			*next_state=1;
-			break;
-		default:
-			*next_state=0;
-			break;
-
-
-		}
-
-               	break;
-}
-*/}
+	break;
+	}
         case 1:{
-		//*movements=generate_output(LEFT,Mag_Advance,max_twist*2);
-                //*next_state = 2;
-                //break;
-}
+	if(observations[4]==0.05f)
+	  *movements=generate_output(FORWARD,Mag_Advance,max_twist);
+	else
+	  *movements=generate_output(LEFT,Mag_Advance,max_twist/10);
+	break;	
+	}
  	case 2:{
-		//*movements=generate_output(FORWARD,Mag_Advance,max_twist);
-                //*next_state = 3;
-                //break;
-}
+	*movements=generate_output(LEFT,Mag_Advance,max_twist);
+	break;		
+	}
         case 3:{
-               //*movements=generate_output(RIGHT,Mag_Advance,max_twist*2);
-               //*next_state = 0;
-                //break;
-}
-        case 4:{
-               //*movements=generate_output(FORWARD,Mag_Advance,max_twist);
-               //*next_state =0;
-                //break;
+	*movements=generate_output(LEFT,Mag_Advance,max_twist);        
+	break;       
+	}
 
-}
 	default:{
-		//printf("State %d not defined used ", state);
-                //*movements=generate_output(FORWARD,Mag_Advance,max_twist);
-                //*next_state = 0;
-		int flg_result=sm_avoidance_destination(intensity,dest,obs,movements, next_state ,Mag_Advance ,max_twist);
-
-                if(flg_result == 1) stop();
-                break;
+                
+		if(observations[4]==0.05&&obs==1)
+		{
+		printf("hacia adelante");
+		  *movements=generate_output(FORWARD,Mag_Advance,max_twist);
+		}
+		else
+		  *movements=generate_output(LEFT,Mag_Advance,max_twist/10);
+		break;
 }
                 
  }
